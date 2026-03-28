@@ -3,6 +3,7 @@
 #include <iterator>
 #include <numeric>
 #include <vector>
+#include <unordered_map>
 
 #include "test_framework/generic_test.h"
 #include "test_framework/random_sequence_checker.h"
@@ -10,10 +11,22 @@
 using std::bind;
 using std::iota;
 using std::vector;
+using std::unordered_map;
 // Returns a random k-sized subset of {0, 1, ..., n - 1}.
 vector<int> RandomSubset(int n, int k) {
-  // TODO - you fill in here.
-  return {};
+  unordered_map<int, int> elmap;
+  for (int i = 0; i < k; i++) {
+    int rand_idx = i + rand() % (n - i);
+    int rand_mapped_idx = (elmap.find(rand_idx) == elmap.end() ? rand_idx : elmap[rand_idx]);
+    int i_mapped = (elmap.find(i) == elmap.end() ? i : elmap[i]);
+    elmap[rand_idx] = i_mapped;
+    elmap[i] = rand_mapped_idx;
+  }
+
+  vector<int> res(k);
+  for (int i = 0; i < k; i++)
+    res[i] = elmap[i];
+  return res;
 }
 bool RandomSubsetRunner(TimedExecutor& executor, int n, int k) {
   using namespace test_framework;

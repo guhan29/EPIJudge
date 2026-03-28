@@ -6,9 +6,15 @@
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 using std::vector;
+using std::swap;
 void Rearrange(vector<int>* A_ptr) {
-  // TODO - you fill in here.
-  return;
+  vector<int>& A = *A_ptr;
+  if (A.empty()) return;
+  for (int i = 0; i < A.size() - 1; i++) {
+    if ((!(i % 2) && A[i] > A[i + 1]) || ((i % 2) && A[i] < A[i + 1])) {
+      swap(A[i], A[i + 1]);
+    }
+  }
 }
 void CheckAnswer(const vector<int>& A) {
   for (int i = 0; i < A.size(); ++i) {

@@ -13,8 +13,23 @@ using std::vector;
 vector<int> OnlineRandomSample(vector<int>::const_iterator stream_begin,
                                const vector<int>::const_iterator stream_end,
                                int k) {
-  // TODO - you fill in here.
-  return {};
+  vector<int> res(k);
+  for (int i = 0; i < k; i++) {
+    res[i] = *stream_begin;
+    stream_begin++;
+  }
+  int num_seen_so_far = k;
+
+  while (stream_begin != stream_end) {
+    num_seen_so_far++;
+    int x = *stream_begin;
+    int randIdx = rand() % num_seen_so_far;
+    if (randIdx < k) {
+      res[randIdx] = x;
+    }
+    stream_begin++;
+  }
+  return res;
 }
 bool OnlineRandomSamplingRunner(TimedExecutor& executor, vector<int> stream,
                                 int k) {

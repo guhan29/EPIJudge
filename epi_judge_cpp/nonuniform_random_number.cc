@@ -12,8 +12,21 @@ using std::unordered_map;
 using std::vector;
 int NonuniformRandomNumberGeneration(const vector<int>& values,
                                      const vector<double>& probabilities) {
-  // TODO - you fill in here.
-  return 0;
+  int n = probabilities.size();
+  vector<double> prob_prefix(n);
+  prob_prefix[0] = probabilities[0];
+  for (int i = 1; i < n; i++) {
+    prob_prefix[i] = probabilities[i] + prob_prefix[i - 1];
+  }
+  double rand_idx = rand() / (RAND_MAX + 1.0);
+
+  int l = 0, r = n;
+  while (l < r) {
+    int mid = l + (r - l) / 2;
+    if (prob_prefix[mid] <= rand_idx) l = mid + 1;
+    else r = mid;
+  }
+  return values[l];
 }
 bool NonuniformRandomNumberGenerationRunner(
     TimedExecutor& executor, const vector<int>& values,

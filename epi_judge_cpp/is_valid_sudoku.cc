@@ -1,11 +1,46 @@
 #include <vector>
+#include <unordered_set>
 
 #include "test_framework/generic_test.h"
 using std::vector;
+using std::unordered_set;
+
+bool HasDuplicate(const vector<vector<int>>&, int, int, int, int);
+
 // Check if a partially filled matrix has any conflicts.
 bool IsValidSudoku(const vector<vector<int>>& partial_assignment) {
-  // TODO - you fill in here.
+  int n = partial_assignment.size();
+  for (int i = 0; i < n; i++) {
+    if (HasDuplicate(partial_assignment, i, i + 1, 0, n)) return false;
+  }
+  for (int j = 0; j < n; j++) {
+    if (HasDuplicate(partial_assignment, 0, n, j, j + 1)) return false;
+  }
+  int region_size = sqrt(n);
+  for (int i = 0; i < region_size; i++) {
+    for (int j = 0; j < region_size; j++) {
+      if (HasDuplicate(partial_assignment, 
+        i * region_size, (i + 1) * region_size, 
+        j * region_size, (j + 1) * region_size)
+        ) return false;
+    }
+  }
   return true;
+}
+
+bool HasDuplicate(const vector<vector<int>>& partial_assignment, int start_row, 
+  int end_row, int start_col, int end_col) {
+  unordered_set<int> is_present;
+  for (int i = start_row; i < end_row; i++) {
+    for (int j = start_col; j < end_col; j++) {
+      if (partial_assignment[i][j] != 0 && 
+        is_present.find(partial_assignment[i][j]) != is_present.end()) {
+        return true;      
+      }
+      is_present.insert(partial_assignment[i][j]);
+    }
+  }
+  return false;
 }
 
 int main(int argc, char* argv[]) {

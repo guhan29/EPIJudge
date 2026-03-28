@@ -6,9 +6,21 @@
 #include "test_framework/timed_executor.h"
 using std::bind;
 using std::vector;
+using std::swap;
+
+void RandomSampling(int n, vector<int>* A_ptr) {
+  vector<int>& A = *A_ptr;
+  for (int i = 0; i < n; i++) {
+    int randIdx = i + rand() % (n - i);
+    swap(A[i], A[randIdx]);
+  }
+}
+
 vector<int> ComputeRandomPermutation(int n) {
-  // TODO - you fill in here.
-  return {};
+  vector<int> permutation(n);
+  for (int i = 0; i < n; i++) permutation[i] = i;
+  RandomSampling(n, &permutation);
+  return permutation;
 }
 int Factorial(int n) { return n <= 1 ? 1 : n * Factorial(n - 1); }
 

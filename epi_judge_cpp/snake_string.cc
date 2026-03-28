@@ -4,8 +4,12 @@
 using std::string;
 
 string SnakeString(const string& s) {
-  // TODO - you fill in here.
-  return "";
+  string res = "";
+  int n = s.size();
+  for (int i = 1; i < n; i += 4) res += s[i];
+  for (int i = 0; i < n; i += 2) res += s[i];
+  for (int i = 3; i < n; i += 4) res += s[i];
+  return res;
 }
 
 int main(int argc, char* argv[]) {

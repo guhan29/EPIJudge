@@ -6,8 +6,26 @@ using std::string;
 // Returns the index of the first character of the substring if found, -1
 // otherwise.
 int RabinKarp(const string &t, const string &s) {
-  // TODO - you fill in here.
-  return 0;
+  int t_len = t.size(), s_len = s.size();
+  if (t_len < s_len) return -1;
+
+  const int BASE = 26;
+  int t_hash = 0, s_hash = 0;
+  int power_s = 1;
+
+  for (int i = 0; i < s_len; i++) {
+    power_s = i ? power_s * BASE : 1;
+    t_hash = t_hash * BASE + t[i];
+    s_hash = s_hash * BASE + s[i];
+  }
+  for (int i = s_len; i <= t_len; i++) {
+    if (t_hash == s_hash && t.compare(i - s_len, s_len, s) == 0) {
+      return i - s_len;
+    }
+    t_hash -= t[i - s_len] * power_s;
+    t_hash = t_hash * BASE + t[i];
+  }
+  return -1;
 }
 
 int main(int argc, char *argv[]) {
