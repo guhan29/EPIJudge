@@ -6,11 +6,115 @@
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 
+int getLength(shared_ptr<ListNode<int>>);
+int getLength(shared_ptr<ListNode<int>>, shared_ptr<ListNode<int>>);
+
+shared_ptr<ListNode<int>> HasCycle(const shared_ptr<ListNode<int>>&);
+
+shared_ptr<ListNode<int>> OverlappingNoCycleLists(
+    shared_ptr<ListNode<int>> l0, shared_ptr<ListNode<int>> l1);
+
+
+
 shared_ptr<ListNode<int>> OverlappingLists(shared_ptr<ListNode<int>> l0,
                                            shared_ptr<ListNode<int>> l1) {
-  // TODO - you fill in here.
+  auto root0 = HasCycle(l0), root1 = HasCycle(l1);
+  if (!root0 && !root1) {
+    return OverlappingNoCycleLists(l0, l1);
+  }
+
+  if ((!root0 && root1) || (root0 && !root1)) {
+    return nullptr;
+  }
+
+  auto temp = root0;
+  do {
+    temp = temp->next;
+  } while (temp != root0 && temp != root1);
+
+  if (temp != root1) {
+    return nullptr;
+  }
+
+  int root0_len = getLength(l0, root0), root1_len = getLength(l1, root1);
+  if (root0_len < root1_len) {
+    auto temp = l0;
+    l0 = l1;
+    l1 = temp;
+
+    temp = root0;
+    root0 = root1;
+    root1 = temp;
+  }
+
+  for (int i = 0; i < abs(root0_len - root1_len); i++) {
+    l0 = l0->next;
+  }
+
+  while (l0 != l1 && l0 != root0 && l1 != root1) {
+    l0 = l0->next;
+    l1 = l1->next;
+  }
+
+  return l0 == l1 ? l0 : root0;
+}
+
+shared_ptr<ListNode<int>> OverlappingNoCycleLists(
+    shared_ptr<ListNode<int>> l0, shared_ptr<ListNode<int>> l1) {
+  int l0_len = getLength(l0);
+  int l1_len = getLength(l1);
+
+  if (l0_len < l1_len) {
+    auto temp = l1;
+    l1 = l0;
+    l0 = temp;
+  }
+
+  for (int i = 0; i < abs(l0_len - l1_len); i++)
+    l0 = l0->next;
+
+  while (l0 && l1 && l0 != l1) {
+    l0 = l0->next;
+    l1 = l1->next;
+  }
+  return l0;
+}
+
+int getLength(shared_ptr<ListNode<int>> a, shared_ptr<ListNode<int>> b) {
+  int l = 0;
+  while (a != b) {
+    a = a->next;
+    l++;
+  }
+  return l;
+}
+
+int getLength(shared_ptr<ListNode<int>> head) {
+  int l = 0;
+  while (head) {
+    head = head->next;
+    l++;
+  }
+  return l;
+}
+
+shared_ptr<ListNode<int>> HasCycle(const shared_ptr<ListNode<int>>& head) {
+  shared_ptr<ListNode<int>> fast = head, slow = head;
+  while (fast && fast->next) {
+    slow = slow->next;
+    fast = fast->next->next;
+    if (slow == fast) {
+      slow = head;
+      while (slow != fast) {
+        slow = slow->next;
+        fast = fast->next;
+      }
+      return slow;
+    }
+  }
   return nullptr;
 }
+
 void OverlappingListsWrapper(TimedExecutor& executor,
                              shared_ptr<ListNode<int>> l0,
                              shared_ptr<ListNode<int>> l1,

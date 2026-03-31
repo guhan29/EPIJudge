@@ -3,8 +3,17 @@
 
 shared_ptr<ListNode<int>> AddTwoNumbers(shared_ptr<ListNode<int>> L1,
                                         shared_ptr<ListNode<int>> L2) {
-  // TODO - you fill in here.
-  return nullptr;
+  int carry = 0;
+  auto head = make_shared<ListNode<int>>(), it = head;
+  while (L1 || L2 || carry) {
+    int sum = (L1 ? L1->data : 0) + (L2 ? L2->data : 0) + carry;
+    L1 = L1 ? L1->next : nullptr;
+    L2 = L2 ? L2->next : nullptr;
+    it->next = make_shared<ListNode<int>>(sum % 10);
+    it = it->next;
+    carry = sum / 10;
+  }
+  return head->next;
 }
 
 int main(int argc, char* argv[]) {

@@ -3,8 +3,23 @@
 
 shared_ptr<ListNode<int>> ReverseSublist(shared_ptr<ListNode<int>> L, int start,
                                          int finish) {
-  // TODO - you fill in here.
-  return nullptr;
+  shared_ptr<ListNode<int>> dummy_head = make_shared<ListNode<int>>(0, L);
+  auto sublist_head = dummy_head;
+  int i = 1;
+  while (i < start) {
+    sublist_head = sublist_head->next;
+    i++;
+  }
+
+  auto sublist_iter = sublist_head->next;
+  while (i < finish) {
+    auto temp = sublist_iter->next;
+    sublist_iter->next = temp->next;
+    temp->next = sublist_head->next;
+    sublist_head->next = temp;
+    i++;
+  }
+  return dummy_head->next;
 }
 
 int main(int argc, char* argv[]) {
