@@ -5,23 +5,29 @@
 #include "test_framework/test_failure.h"
 using std::length_error;
 
+using std::stack;
+using std::pair;
+using std::max;
+
 class Stack {
+ private:
+  stack<pair<int, int>> stk_with_max;
+
  public:
   bool Empty() const {
-    // TODO - you fill in here.
-    return true;
+    return stk_with_max.empty();
   }
   int Max() const {
-    // TODO - you fill in here.
-    return 0;
+    return stk_with_max.top().second;
   }
   int Pop() {
-    // TODO - you fill in here.
-    return 0;
+    int top_element = stk_with_max.top().first;
+    stk_with_max.pop();
+    return top_element;
   }
   void Push(int x) {
-    // TODO - you fill in here.
-    return;
+    int max_num = Empty() ? x : max(x, Max());
+    stk_with_max.push({x, max_num});
   }
 };
 struct StackOp {

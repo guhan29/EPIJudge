@@ -1,20 +1,43 @@
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
+
+#include <vector>
+
+using std::vector;
+using std::rotate;
 class Queue {
+ private:
+  const int scale_factor = 2;
+  int head = 0;
+  int tail = 0;
+  vector<int> entries;
+  int entries_count = 0;
  public:
-  Queue(size_t capacity) {}
+  Queue(size_t capacity) {
+    entries.resize(capacity);
+  }
+
   void Enqueue(int x) {
-    // TODO - you fill in here.
-    return;
+    if (entries_count == entries.size()) {
+      rotate(entries.begin(), entries.begin() + head, entries.end());
+      head = 0;
+      tail = entries_count;
+      entries.resize(entries.size() * scale_factor);
+    }
+    entries[tail] = x;
+    tail = (tail + 1) % entries.size();
+    entries_count++;
   }
   int Dequeue() {
-    // TODO - you fill in here.
-    return 0;
+    if (entries_count == 0) return -1;
+    entries_count--;
+    int res = entries[head];
+    head = (head + 1) % entries.size();
+    return res;
   }
   int Size() const {
-    // TODO - you fill in here.
-    return 0;
+    return entries_count;
   }
 };
 struct QueueOp {

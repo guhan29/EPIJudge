@@ -1,23 +1,39 @@
 #include <stdexcept>
+#include <queue>
+#include <deque>
 
 #include "test_framework/generic_test.h"
 #include "test_framework/serialization_traits.h"
 #include "test_framework/test_failure.h"
 using std::length_error;
 
+using std::queue;
+using std::deque;
+
 class QueueWithMax {
+ private:
+  queue<int> entries;
+  deque<int> candidates;
+
  public:
   void Enqueue(int x) {
-    // TODO - you fill in here.
-    return;
+    entries.push(x);
+    while (!candidates.empty() && candidates.back() < x) {
+      candidates.pop_back();
+    }
+    candidates.push_back(x);
   }
   int Dequeue() {
-    // TODO - you fill in here.
-    return 0;
+    int res = entries.front();
+    entries.pop();
+    if (!candidates.empty() && res == candidates.front()) {
+      candidates.pop_front();
+    }
+    return res;
   }
   int Max() const {
-    // TODO - you fill in here.
-    return 0;
+    if (!candidates.empty()) return candidates.front();
+    throw length_error("Empty Queue");
   }
 };
 struct QueueOp {
