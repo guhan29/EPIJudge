@@ -4,9 +4,24 @@
 #include "test_framework/generic_test.h"
 using std::vector;
 
+using std::stack;
+
 vector<int> PreorderTraversal(const unique_ptr<BinaryTreeNode<int>>& tree) {
-  // TODO - you fill in here.
-  return {};
+  stack<BinaryTreeNode<int>*> s;
+  s.push(tree.get());
+  vector<int> res;
+
+  while (!s.empty()) {
+    auto curr = s.top();
+    s.pop();
+
+    if (curr) {
+      res.emplace_back(curr->data);
+      s.emplace(curr->right.get());
+      s.emplace(curr->left.get());
+    }
+  }
+  return res;
 }
 
 int main(int argc, char* argv[]) {

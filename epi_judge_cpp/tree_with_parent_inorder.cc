@@ -5,8 +5,28 @@
 using std::vector;
 
 vector<int> InorderTraversal(const unique_ptr<BinaryTreeNode<int>>& tree) {
-  // TODO - you fill in here.
-  return {};
+  BinaryTreeNode<int>* prev = nullptr, *curr = tree.get();
+  vector<int> result;
+  while (curr != nullptr) {
+    BinaryTreeNode<int>* next;
+    if (curr->parent == prev) {
+      if (curr->left != nullptr) {
+        next = curr->left.get();
+      } else {
+        result.emplace_back(curr->data);
+        next = (curr->right != nullptr) ? curr->right.get() : curr->parent;
+      }
+    } else if (curr->left.get() == prev) {
+      result.emplace_back(curr->data);
+      next = (curr->right != nullptr) ? curr->right.get() : curr->parent;
+    } else {
+      next = curr->parent;
+    }
+
+    prev = curr;
+    curr = next;
+  }
+  return result;
 }
 
 int main(int argc, char* argv[]) {

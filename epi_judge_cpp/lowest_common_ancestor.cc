@@ -6,12 +6,53 @@
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 using std::unique_ptr;
+
+struct Status {
+  int num_target_nodes;
+  BinaryTreeNode<int>* ancestor;
+};
+
+Status LcaHelper(const unique_ptr<BinaryTreeNode<int>>& tree,
+                 const unique_ptr<BinaryTreeNode<int>>& node0,
+                 const unique_ptr<BinaryTreeNode<int>>& node1);
+
 BinaryTreeNode<int>* Lca(const unique_ptr<BinaryTreeNode<int>>& tree,
                          const unique_ptr<BinaryTreeNode<int>>& node0,
                          const unique_ptr<BinaryTreeNode<int>>& node1) {
-  // TODO - you fill in here.
-  return nullptr;
+  /*
+  if (tree == nullptr) return nullptr;
+  if (tree == node0 || tree == node1) return tree.get();
+
+  auto left = Lca(tree->left, node0, node1);
+  auto right = Lca(tree->right, node0, node1);
+  if (left != nullptr && right != nullptr) return tree.get();
+  return left != nullptr ? left : right;
+  */
+  return LcaHelper(tree, node0, node1).ancestor;
 }
+
+Status LcaHelper(const unique_ptr<BinaryTreeNode<int>>& tree,
+                 const unique_ptr<BinaryTreeNode<int>>& node0,
+                 const unique_ptr<BinaryTreeNode<int>>& node1) {
+  if (!tree) return {0, nullptr};
+
+  auto left = LcaHelper(tree->left, node0, node1);
+  if (left.num_target_nodes == 2) {
+    return left;
+  }
+
+  auto right = LcaHelper(tree->right, node0, node1);
+  if (right.num_target_nodes == 2) {
+    return right;
+  }
+
+  int num_target_nodes = left.num_target_nodes + 
+    right.num_target_nodes + 
+    (tree == node0) + (tree == node1);
+  return {num_target_nodes, (num_target_nodes == 2 ? tree.get() : nullptr)};
+}
+
+
 int LcaWrapper(TimedExecutor& executor,
                const unique_ptr<BinaryTreeNode<int>>& tree, int key0,
                int key1) {

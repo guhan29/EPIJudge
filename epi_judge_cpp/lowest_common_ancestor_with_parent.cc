@@ -4,11 +4,39 @@
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 
+using std::swap;
+
+int GetDepth(const unique_ptr<BinaryTreeNode<int>>& node) ;
+
 BinaryTreeNode<int>* Lca(const unique_ptr<BinaryTreeNode<int>>& node0,
                          const unique_ptr<BinaryTreeNode<int>>& node1) {
-  // TODO - you fill in here.
-  return nullptr;
+  int d0 = GetDepth(node0), d1 = GetDepth(node1);
+  auto *iter0 = node0.get(), *iter1 = node1.get();
+
+  if (d1 > d0) {
+    swap(iter0, iter1);
+  }
+  int diff = abs(d0 - d1);
+  while (diff--) {
+    iter0 = iter0->parent;
+  }
+  while (iter0 != iter1) {
+    iter0 = iter0->parent;
+    iter1 = iter1->parent;
+  }
+  return iter0;
 }
+
+int GetDepth(const unique_ptr<BinaryTreeNode<int>>& node) {
+  int depth = 0;
+  auto iter = node.get();
+  while (iter->parent) {
+    iter = iter->parent;
+    depth++;
+  }
+  return depth;
+}
+
 int LcaWrapper(TimedExecutor& executor,
                const unique_ptr<BinaryTreeNode<int>>& tree, int key0,
                int key1) {

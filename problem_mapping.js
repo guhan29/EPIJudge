@@ -1002,7 +1002,7 @@ problem_mapping = {
     "Chapter 09: Binary Trees": {
         "9.01 Test if a binary tree is height-balanced": {
             "C++: is_tree_balanced.cc": {
-                "passed": 0,
+                "passed": 3852,
                 "total": 3852
             },
             "Java: IsTreeBalanced.java": {
@@ -1016,7 +1016,7 @@ problem_mapping = {
         },
         "9.02 Test if a binary tree is symmetric": {
             "C++: is_tree_symmetric.cc": {
-                "passed": 0,
+                "passed": 3852,
                 "total": 3852
             },
             "Java: IsTreeSymmetric.java": {
@@ -1030,7 +1030,7 @@ problem_mapping = {
         },
         "9.03 Compute the lowest common ancestor in a binary tree": {
             "C++: lowest_common_ancestor.cc": {
-                "passed": 0,
+                "passed": 948,
                 "total": 948
             },
             "Java: LowestCommonAncestor.java": {
@@ -1044,7 +1044,7 @@ problem_mapping = {
         },
         "9.04 Compute the LCA when nodes have parent pointers": {
             "C++: lowest_common_ancestor_with_parent.cc": {
-                "passed": 0,
+                "passed": 948,
                 "total": 948
             },
             "Java: LowestCommonAncestorWithParent.java": {
@@ -1058,7 +1058,7 @@ problem_mapping = {
         },
         "9.05 Sum the root-to-leaf paths in a binary tree": {
             "C++: sum_root_to_leaf.cc": {
-                "passed": 0,
+                "passed": 3849,
                 "total": 3849
             },
             "Java: SumRootToLeaf.java": {
@@ -1072,7 +1072,7 @@ problem_mapping = {
         },
         "9.06 Find a root to leaf path with specified sum": {
             "C++: path_sum.cc": {
-                "passed": 0,
+                "passed": 7690,
                 "total": 7690
             },
             "Java: PathSum.java": {
@@ -1086,7 +1086,7 @@ problem_mapping = {
         },
         "9.07 Implement an inorder traversal without recursion": {
             "C++: tree_inorder.cc": {
-                "passed": 0,
+                "passed": 3852,
                 "total": 3852
             },
             "Java: TreeInorder.java": {
@@ -1100,7 +1100,7 @@ problem_mapping = {
         },
         "9.08 Compute the kth node in an inorder traversal": {
             "C++: kth_node_in_tree.cc": {
-                "passed": 0,
+                "passed": 3851,
                 "total": 3851
             },
             "Java: KthNodeInTree.java": {
@@ -1114,7 +1114,7 @@ problem_mapping = {
         },
         "9.09 Compute the successor": {
             "C++: successor_in_tree.cc": {
-                "passed": 0,
+                "passed": 948,
                 "total": 948
             },
             "Java: SuccessorInTree.java": {
@@ -1128,7 +1128,7 @@ problem_mapping = {
         },
         "9.10 Implement an inorder traversal with constant space": {
             "C++: tree_with_parent_inorder.cc": {
-                "passed": 0,
+                "passed": 3852,
                 "total": 3852
             },
             "Java: TreeWithParentInorder.java": {
@@ -1142,7 +1142,7 @@ problem_mapping = {
         },
         "9.11 Reconstruct a binary tree from traversal data": {
             "C++: tree_from_preorder_inorder.cc": {
-                "passed": 0,
+                "passed": 3852,
                 "total": 3852
             },
             "Java: TreeFromPreorderInorder.java": {
@@ -1156,7 +1156,7 @@ problem_mapping = {
         },
         "9.12 Reconstruct a binary tree from a preorder traversal with markers": {
             "C++: tree_from_preorder_with_null.cc": {
-                "passed": 0,
+                "passed": 3852,
                 "total": 3852
             },
             "Java: TreeFromPreorderWithNull.java": {

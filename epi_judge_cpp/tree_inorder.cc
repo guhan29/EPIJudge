@@ -6,9 +6,26 @@
 using std::unique_ptr;
 using std::vector;
 
+using std::stack;
+
 vector<int> InorderTraversal(const unique_ptr<BinaryTreeNode<int>>& tree) {
-  // TODO - you fill in here.
-  return {};
+  stack<BinaryTreeNode<int>*> s;
+  auto curr = tree.get();
+  vector<int> res;
+
+  while (!s.empty() || curr != nullptr) {
+    if (curr) {
+      s.push(curr);
+      curr = curr->left.get();
+    } else {
+      curr = s.top();
+      s.pop();
+      res.emplace_back(curr->data);
+      curr = curr->right.get();
+    }
+  }
+
+  return res;
 }
 
 int main(int argc, char* argv[]) {
